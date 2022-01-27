@@ -9,6 +9,17 @@ function Login() {
     const[name,setName]=useState("");
     const[profilePic,setProfilePic]=useState("");
     const dispatch= useDispatch();
+    const loginToApp = (e) => {
+        e.preventdefault();
+        auth.signInWithEmailAndPassword(email , password).then(userAuth=>{
+            dispatch(login({
+                email: userAuth.user.email,
+                uid: userAuth.user.uid,
+                displayName: userAuth.displayName,
+                profileURL: userAuth.user.photoURL
+            }))
+        }).catch(error=>alert(error));
+    };
     const register = ()=>{
         if(!name) {
             return alert('Please enter a full name')
@@ -23,14 +34,12 @@ function Login() {
                     email: userAuth.user.email,
                     uid: userAuth.user.uid,
                     displayName : name,
-                    photoUrl: profilePic
+                    photoURL: profilePic
                 }))
             })
         }).catch(error => alert(error));
     };
-    const loginToApp=(e)=>{
-        e.preventdefault();
-    };
+
         return <div className='login'>
             <img src="https://www.paperlesslabacademy.com/wp-content/uploads/2017/02/linkedin-logo-transparent.png" alt="" />
         <form>
